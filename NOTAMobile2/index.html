@@ -15,6 +15,8 @@
     </head>
     <body>
 
+        <!-- ****** Templates ****** -->
+        <!-- Latest video clips -->
         <script type="text/x-kendo-tmpl" id="template_latestvideoclips_program">
             <div style="width: 100%">
                 <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
@@ -30,6 +32,7 @@
             </div>
         </script>
 
+        <!-- Program -->
         <script type="text/x-kendo-tmpl" id="template_program">
             <div class="program">
                 <div style="float: left; padding: 4px;">
@@ -53,26 +56,20 @@
             </div>
         </script>
         
-<script id="scrollview-template" type="text/x-kendo-template">
-    <div>
-        <div style="width: 100%; height: 110px; background-image: #=setBackground(ImageFile)#;"></div>
-        <p>#:OriginalTitle#</p>
-    </div>
-</script>
-
-        <script id="_scrollview-template" type="text/x-kendo-template">
-    <div>
-        <div style="width: 110px; height: 110px; background-image: #=setBackground(data[0].ProductID)#;"></div>
-        <p>#= data[0].ProductName #</p>
-    </div>
-    <div>
-        <div style="width: 110px; height: 110px; background-image: #=setBackground(data[1].ProductID)#;"></div>
-        <p>#= data[1].ProductName #</p>
-    </div>
-</script>
-
-
+        <!-- Scrollview Example -->
+        <script id="scrollview-template" type="text/x-kendo-template">
+            <div>
+                <div style="width: 100%; height: 110px; background-image: #=setBackground(ImageFile)#;"></div>
+                <p>#:OriginalTitle#</p>
+            </div>
+        </script>
+        
+        <!-- ****** Views ****** -->
+        <!-- Home -->
          <div data-role="view" id="tabstrip-home" data-stretch="false" data-title="Weekly Trendy Programs">
+            <div>
+                <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
+            </div>
             <div id="programsLatestVideoClipsview"></div>
             <div>Most Talked</div>
             <div id="programsWeekMostTalkingAboutview"></div>
@@ -80,19 +77,18 @@
             <div id="programsLatestUpdatesview"></div>
         </div>
 
-<div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
-    <div id="scrollview"></div>
-</div>
-
+        <!-- Scrollview Example -->
+        <div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
+            <div id="scrollview"></div>
+        </div>
+        
+        <!-- Layout -->
          <div data-role="layout" data-id="mobile-tabstrip">
             <header data-role="header">
                 <div data-role="navbar">
                     <span data-role="view-title"></span>
                 </div>
-                <div>
-                    <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
-                </div>
-        </header>
+            </header>
 
             <div data-role="footer">
                 <div data-role="tabstrip">
@@ -104,7 +100,7 @@
         </div>
 
 <script>
-    var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
+        var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
 
             function notaProgramsDataSource_error(e) {
               console.log("Error: " + e); // displays "error"
@@ -130,7 +126,6 @@
                     contentHeight: "auto",
                     enablePager: false
                 });
-
                 
                //$("#programsLatestUpdatesview").kendoMobileListView({
                 //dataSource: notaProgramsDataSource.at(0).LatestPrograms,
@@ -160,7 +155,7 @@
     }
 </script>
 
-                <style scoped>
+<style scoped>
             .title {
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 12px;
