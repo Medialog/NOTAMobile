@@ -9,151 +9,208 @@
         <script src="cordova.js"></script>
         <script src="kendo/js/jquery.min.js"></script>
         <script src="kendo/js/kendo.mobile.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 
-        <script src="scripts/login.js"></script>
-        <script src="scripts/location.js"></script>
-        <script src="scripts/weather.js"></script>
-        <script src="scripts/app.js"></script>
-
+        <script src="scripts/NOTAMobile.js"></script>
+        
     </head>
     <body>
-        <!--Home-->
-        <div id="tabstrip-home" 
-             data-role="view"  
-             data-title="Home">
 
-            <div data-role="content" class="view-content">
-                <h1>Welcome!</h1>
-                <a id="skin-change" data-role="button" data-click="app.changeSkin">Flat</a>
-                <p>
-                    Icenium&trade; enables you to build cross-platform device applications regardless of your
-                    development platform by combining the convenience of a local development toolset with the
-                    power and flexibility of the cloud.
-                </p>
-                <div class="img"></div>
-            </div>
-        </div>
-
-        <!--Login-->
-        <div id="tabstrip-login" 
-             data-role="view"  
-             data-title="Login" 
-             data-model="app.loginService.viewModel">
-
-            <div data-role="content" class="view-content">
-                <div class="logo"></div>
-                <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
-                <h1 class="welcome" data-bind="visible: isLoggedIn">
-                    Welcome, <span data-bind="text: username"></span>!
-                </h1>
-
-                <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
-                    <li>
-                        <label>
-                            Username
-                            <input type="text" data-bind="value: username"/>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            Password
-                            <input type="password" data-bind="value: password" />
-                        </label>
-                    </li>
-                </ul>
-
-                <div class="buttonArea">
-                    <a id="login" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" class="login-button">Login</a>
-                    <a id="logout" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" class="login-button">Logout</a>
-                </div>
-            </div>
-
-        </div>
-
-        <!--Location-->
-        <div id="tabstrip-location" 
-             data-role="view"  
-             data-title="Location" 
-             data-init="app.locationService.initLocation" 
-             data-show="app.locationService.show" 
-             data-hide="app.locationService.hide" 
-             data-model="app.locationService.viewModel" 
-             data-stretch="true">
-
-            <div data-role="content">
-                <div id="map-search-wrap">
-                    <button id="map-navigate-home" data-bind="click: onNavigateHome"></button>
-                    <form onsubmit="return false;">
-                        <input id="map-address" type="search" data-bind="value: address" placeholder="Address"/>
-                        <input id="map-search" type="submit" value="" data-bind="click: onSearchAddress" />
-                    </form>
-                </div>
-                <div id="map-canvas"></div>
-            </div>
-
-        </div>
-
-        <!--Weather-->
-        <div id="tabstrip-weather" 
-             data-role="view"  
-             data-title="Weather" 
-             data-model="app.weatherService.viewModel">
-
-            <div data-role="content" class="weather">
-                <div data-role="scroller">
-                    <h1>20-Day Forecast</h1>
-
-                    <div class="separator">
-                        <div class="dark"></div>
-                        <div class="light"></div>
+        <script type="text/x-kendo-tmpl" id="template_latestvideoclips_program">
+            <div style="width: 100%">
+                <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
+                <div class="videoPlayButton">
+                    <a href="#:VideoFile#"><img width="100%" src="_images/btPlay_120px.png"/></a>
+                    <div class="titleDiv">
+                        <p class="title">#: OriginalTitle #</p>
+                        <div class="socialMetrics">
+                            #:FacebookLikes#<img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" />
+                        </div>
                     </div>
-
-                    <ul class="forecast-list" 
-                        data-role="listview" 
-                        data-bind="source: weatherDataSource" 
-                        data-template="weather-forecast-template">                    
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!--Weather forecast template-->
-        <script type="text/x-kendo-tmpl" id="weather-forecast-template">
-            <div>
-                <div class="position-left">
-                    <span class="weather-info date">${day}</span>
-                </div>
-                <div class="position-right">
-                    <span class="weather-info temperature high">${highTemperature}<sup>&deg;</sup></span>
-                    <span class="weather-info temperature low">${lowTemperature}<sup>&deg;</sup></span>
-                </div>
-                <div class="position-center">
-                    <span class="weather-icon ${image}"></span>
                 </div>
             </div>
         </script>
 
-        <!--Layout-->
-        <div data-role="layout" data-id="tabstrip-layout" >
+        <script type="text/x-kendo-tmpl" id="template_program">
+            <div class="program">
+                <div style="float: left; padding: 4px;">
+                    <a class="p-link" href="#:FacebookPage#" title="#:OriginalTitle#">
+                        <img width="100%" src="#:ImageFile#" alt="#:OriginalTitle#" />
+                    </a>
+                    </div>
+                <div>
+                <a class="p-link" href="#:FacebookPage#" title="#:OriginalTitle#">#:OriginalTitle#</a>
+                <br/>
+                <a href="#:VideoFile#"><img width="64" height="64" src="_images/VideoPlay64.png" alt="#:VideoFile#" /></a>
+                <br/>
+                #:Summary#
+                </div>
+                <div>
+                <img width="80" height="66" src="_images/FacebookTalkingAbout.png" alt="#:FacebookTalkingAboutWeekCount#" />#:FacebookTalkingAboutWeekCount#
+                </div>
+                <div>
+                <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" /> #:FacebookLikes#
+                </div>
+            </div>
+        </script>
+        
+<script id="scrollview-template" type="text/x-kendo-template">
+    <div>
+        <div style="width: 100%; height: 110px; background-image: #=setBackground(ImageFile)#;"></div>
+        <p>#:OriginalTitle#</p>
+    </div>
+</script>
 
-            <!--Header-->
-            <div data-role="header">
+        <script id="_scrollview-template" type="text/x-kendo-template">
+    <div>
+        <div style="width: 110px; height: 110px; background-image: #=setBackground(data[0].ProductID)#;"></div>
+        <p>#= data[0].ProductName #</p>
+    </div>
+    <div>
+        <div style="width: 110px; height: 110px; background-image: #=setBackground(data[1].ProductID)#;"></div>
+        <p>#= data[1].ProductName #</p>
+    </div>
+</script>
+
+
+         <div data-role="view" id="tabstrip-home" data-stretch="false" data-title="Weekly Trendy Programs">
+            <div id="programsLatestVideoClipsview"></div>
+            <div>Most Talked</div>
+            <div id="programsWeekMostTalkingAboutview"></div>
+            <div>Latest Updates</div>
+            <div id="programsLatestUpdatesview"></div>
+        </div>
+
+<div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
+    <div id="scrollview"></div>
+</div>
+
+         <div data-role="layout" data-id="mobile-tabstrip">
+            <header data-role="header">
                 <div data-role="navbar">
                     <span data-role="view-title"></span>
                 </div>
-            </div>
+                <div>
+                    <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
+                </div>
+        </header>
 
-            <!--Footer-->
             <div data-role="footer">
                 <div data-role="tabstrip">
                     <a href="#tabstrip-home" data-icon="home">Home</a>
-                    <a href="#tabstrip-login" data-icon="contacts">Login</a>
-                    <a href="#tabstrip-location" data-icon="search">Location</a>
-                    <a href="#tabstrip-weather" data-icon="globe">Weather</a>
+                    <a href="#tabstrip-geolocation" data-icon="globe">Geolocation</a>
+                    <a href="#tabstrip-scrollview" data-icon="home">Scroll</a>
                 </div>
             </div>
         </div>
+
+<script>
+    var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
+
+            function notaProgramsDataSource_error(e) {
+              console.log("Error: " + e); // displays "error"
+            }
+            
+            notaProgramsDataSource.bind("error", notaProgramsDataSource_error);
+            
+            notaProgramsDataSource.fetch(function(){
+                
+               //$("#programsWeekMostTalkingAboutview").kendoMobileListView({
+               // dataSource: notaProgramsDataSource.at(0).WeekMostTalkingAboutPrograms,
+               // template: kendo.template($("#template_program").html())
+               // });
+
+                $("#programsLatestVideoClipsview").kendoMobileScrollView({
+                    dataSource: {
+                        data: notaProgramsDataSource.at(0).LatestVideoClips,
+                        serverPaging: false,
+                        pageSize: 6
+                    },
+                    itemsPerPage: 1,
+                    template: $("#template_latestvideoclips_program").html(),
+                    contentHeight: "auto",
+                    enablePager: false
+                });
+
+                
+               //$("#programsLatestUpdatesview").kendoMobileListView({
+                //dataSource: notaProgramsDataSource.at(0).LatestPrograms,
+                //template: kendo.template($("#template_program").html())
+                //});
+             
+            });            
+
+    
+    function onInit() {
+        $("#scrollview").kendoMobileScrollView({
+            dataSource: {
+                data: notaProgramsDataSource.at(0).LatestVideoClips,
+                serverPaging: false,
+                pageSize: 6
+            },
+            itemsPerPage: 1,
+            template: $("#template_latestvideoclips_program").html(),
+            contentHeight: "auto",
+            enablePager: false
+        });
+    }
+
+    function setBackground(url) {
+        console.log("url(" + url + ")");
+        return "url(" + url + ")";
+    }
+</script>
+
+                <style scoped>
+            .title {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                text-align: left;
+                font-weight: bold;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+
+            .summary {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 9px;
+                text-align: left;
+                margin: 0;
+                padding: 0;
+                color: lightgrey;
+            }
+
+            .socialMetrics {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 10px;
+                font-weight: bold;
+                margin: 0;
+                padding: 0;
+                color: white;
+            }
+
+
+            .image {
+                width: 100%;
+            }
+            
+            .videoPlayButton {
+                position: absolute;
+                bottom: 0px;
+                margin-left: 0px;
+                margin-right: 12px;
+                z-index: 1000;
+            }
+            .titleDiv {
+                position: absolute;
+                top: 4px;
+                right: 0px;
+                margin-left: 0px;
+                z-index: 1000;
+                text-align: right;
+            }
+        </style>
+        
     </body>
 </html>
         
