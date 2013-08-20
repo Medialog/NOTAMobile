@@ -10,12 +10,31 @@
         <script src="kendo/js/jquery.min.js"></script>
         <script src="kendo/js/kendo.mobile.min.js"></script>
 
-        <script src="scripts/NOTAMobile.js"></script>
         
     </head>
     <body>
+        
+        <!-- ******************* -->
+        <!-- ****** Views ****** -->
+        
+        <!-- Home -->
+        <div data-role="view" id="tabstrip-home" data-title="Weekly Trendy Programs">
+            <div id="programsLatestVideoClipsview"></div>
+            <div>Most Talked</div>
+            <div id="programsWeekMostTalkingAboutview"></div>
+            <div>Latest Updates</div>
+            <div id="programsLatestUpdatesview"></div>
+        </div>
 
+        <!-- Scrollview Example -->
+        <div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
+            <div id="scrollview"></div>
+        </div>
+        
+
+        <!-- *********************** -->
         <!-- ****** Templates ****** -->
+        
         <!-- Latest video clips -->
         <script type="text/x-kendo-tmpl" id="template_latestvideoclips_program">
             <div style="width: 100%">
@@ -63,33 +82,18 @@
                 <p>#:OriginalTitle#</p>
             </div>
         </script>
-        
-        <!-- ****** Views ****** -->
-        <!-- Home -->
-         <div data-role="view" id="tabstrip-home" data-stretch="false" data-title="Weekly Trendy Programs">
-            <div>
-                <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
-            </div>
-            <div id="programsLatestVideoClipsview"></div>
-            <div>Most Talked</div>
-            <div id="programsWeekMostTalkingAboutview"></div>
-            <div>Latest Updates</div>
-            <div id="programsLatestUpdatesview"></div>
-        </div>
 
-        <!-- Scrollview Example -->
-        <div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
-            <div id="scrollview"></div>
-        </div>
-        
-        <!-- Layout -->
-         <div data-role="layout" data-id="mobile-tabstrip">
+        <!-- ******************* -->
+        <!-- ****** Layout ****** -->
+        <div data-role="layout" data-id="mobile-tabstrip">
             <header data-role="header">
                 <div data-role="navbar">
                     <span data-role="view-title"></span>
                 </div>
+                <div>
+                    <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
+                </div>
             </header>
-
             <div data-role="footer">
                 <div data-role="tabstrip">
                     <a href="#tabstrip-home" data-icon="home">Home</a>
@@ -99,60 +103,65 @@
             </div>
         </div>
 
+        <!-- Scripts -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/data.js"></script>
+        
 <script>
-        var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
+    getPrograms();
+        //var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
 
-            function notaProgramsDataSource_error(e) {
-              console.log("Error: " + e); // displays "error"
-            }
+//            function notaProgramsDataSource_error(e) {
+//              console.log("Error: " + e); // displays "error"
+//            }
             
-            notaProgramsDataSource.bind("error", notaProgramsDataSource_error);
+//            notaProgramsDataSource.bind("error", notaProgramsDataSource_error);
             
-            notaProgramsDataSource.fetch(function(){
+//            notaProgramsDataSource.fetch(function(){
                 
                //$("#programsWeekMostTalkingAboutview").kendoMobileListView({
                // dataSource: notaProgramsDataSource.at(0).WeekMostTalkingAboutPrograms,
                // template: kendo.template($("#template_program").html())
                // });
 
-                $("#programsLatestVideoClipsview").kendoMobileScrollView({
-                    dataSource: {
-                        data: notaProgramsDataSource.at(0).LatestVideoClips,
-                        serverPaging: false,
-                        pageSize: 6
-                    },
-                    itemsPerPage: 1,
-                    template: $("#template_latestvideoclips_program").html(),
-                    contentHeight: "auto",
-                    enablePager: false
-                });
+//                $("#programsLatestVideoClipsview").kendoMobileScrollView({
+//                    dataSource: {
+//                        data: notaProgramsDataSource.at(0).LatestVideoClips,
+//                        serverPaging: false,
+//                        pageSize: 6
+//                    },
+//                    itemsPerPage: 1,
+//                    template: $("#template_latestvideoclips_program").html(),
+//                    contentHeight: "auto",
+//                    enablePager: false
+//                });
                 
                //$("#programsLatestUpdatesview").kendoMobileListView({
                 //dataSource: notaProgramsDataSource.at(0).LatestPrograms,
                 //template: kendo.template($("#template_program").html())
                 //});
              
-            });            
+//            });            
 
     
-    function onInit() {
-        $("#scrollview").kendoMobileScrollView({
-            dataSource: {
-                data: notaProgramsDataSource.at(0).LatestVideoClips,
-                serverPaging: false,
-                pageSize: 6
-            },
-            itemsPerPage: 1,
-            template: $("#template_latestvideoclips_program").html(),
-            contentHeight: "auto",
-            enablePager: false
-        });
-    }
+//    function onInit() {
+//        $("#scrollview").kendoMobileScrollView({
+//            dataSource: {
+//                data: notaProgramsDataSource.at(0).LatestVideoClips,
+//                serverPaging: false,
+//                pageSize: 6
+//            },
+//            itemsPerPage: 1,
+//            template: $("#template_latestvideoclips_program").html(),
+//            contentHeight: "auto",
+//            enablePager: false
+//        });
+//    }
 
-    function setBackground(url) {
-        console.log("url(" + url + ")");
-        return "url(" + url + ")";
-    }
+//    function setBackground(url) {
+//        console.log("url(" + url + ")");
+//        return "url(" + url + ")";
+//    }
 </script>
 
 <style scoped>
@@ -205,7 +214,6 @@
                 text-align: right;
             }
         </style>
-        
     </body>
 </html>
         
