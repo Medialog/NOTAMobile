@@ -18,12 +18,26 @@
         <!-- ****** Views ****** -->
         
         <!-- Home -->
-        <div data-role="view" id="tabstrip-home" data-title="Weekly Trendy Programs">
-            <div id="programsLatestVideoClipsview"></div>
-            <div>Most Talked</div>
-            <div id="programsWeekMostTalkingAboutview"></div>
-            <div>Latest Updates</div>
-            <div id="programsLatestUpdatesview"></div>
+        <div id="tabstrip-home"
+            data-role="view"
+            data-title="NOTA" 
+            data-model="app.programsService.viewModel">
+            
+            <div data-role="content" class="weather">
+                <div>Latest clips</div>
+                <div 
+                    data-role="listview" 
+                    data-bind="source: latestVideoClipsDataSource" 
+                    data-template="latestvideoclips-programs-template">                    
+                </div>
+
+                <div id="programsLatestVideoClipsview"></div>
+                <div>Most Talked</div>
+                <div id="programsWeekMostTalkingAboutview"></div>
+                <div>Latest Updates</div>
+                <div id="programsLatestUpdatesview"></div>
+            </div>
+
         </div>
 
         <!-- Scrollview Example -->
@@ -36,7 +50,7 @@
         <!-- ****** Templates ****** -->
         
         <!-- Latest video clips -->
-        <script type="text/x-kendo-tmpl" id="template_latestvideoclips_program">
+        <script type="text/x-kendo-tmpl" id="latestvideoclips-programs-template">
             <div style="width: 100%">
                 <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
                 <div class="videoPlayButton">
@@ -108,7 +122,7 @@
         <script src="scripts/data.js"></script>
         
 <script>
-    getPrograms();
+    //getPrograms();
         //var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
 
 //            function notaProgramsDataSource_error(e) {

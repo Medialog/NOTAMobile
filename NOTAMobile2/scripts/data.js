@@ -1,52 +1,61 @@
 (function (global) {
-    var notaProgramsDataSource = new kendo.data.DataSource({
-    	transport: {
-    		read: {
-    			url: "http://staging.medialogeuropa.com/NOTAWebApi/api/programs?json=true",
-    			contentType: "application/json; charset=utf-8",
-    			type: "GET",
-    			dataType: "json"
-    		}
-    	},  
-    	change: function(e) {
-            console.log(e);
-    		var data = this.data();
-            console.log(data);
-    	}
-    }),
-    latestVideoClipsDataSource,
-    latestProgramsDataSource;
+    var ProgramsViewModel,
+    app = global.app = global.app || {};
 
-    getPrograms = function () {
-        notaProgramsDataSource.fetch(
-            function(){
-                    
-                latestVideoClipsDataSource = notaProgramsDataSource.at(0).LatestVideoClips;
-                latestProgramsDataSource = notaProgramsDataSource.at(0).LatestPrograms;
-                
-                   //$("#programsWeekMostTalkingAboutview").kendoMobileListView({
-                   // dataSource: notaProgramsDataSource.at(0).WeekMostTalkingAboutPrograms,
-                   // template: kendo.template($("#template_program").html())
-                   // });
+    ProgramsViewModel = kendo.data.ObservableObject.extend({
+        programsDataSource: null,
+        latestVideoClipsDataSource: null,
+        latestProgramsDataSource: null,
+        
+        init: function () {
+            var that = this,
+                dataSource;
+            
+            kendo.data.ObservableObject.fn.init.apply(that, []);
+            
+            dataSource = new kendo.data.DataSource({
+                transport: {
+            		read: {
+//            			url: "http://staging.medialogeuropa.com/NOTAWebApi/api/programs?json=true",
+            			url: "http://localhost:57788/api/programs/AllPrograms?json=true",
+            			contentType: "application/json; charset=utf-8",
+            			type: "GET",
+            			dataType: "json"
+            		}
+                },  
+            	change: function(e) {
+            		var data = this.data();
+                    console.log("All Programs: " + data);
+            	}
+            });
+
+            dataSourceLatestVideoClips = new kendo.data.DataSource({
+                transport: {
+            		read: {
+//            			url: "http://staging.medialogeuropa.com/NOTAWebApi/api/programs?json=true",
+            			url: "http://localhost:57788/api/programs/LatestVideoClips?json=true",
+            			contentType: "application/json; charset=utf-8",
+            			type: "GET",
+            			dataType: "json"
+            		}
+                },  
+            	change: function(e) {
+            		var data = this.data();
+                    console.log("LatestVideoClips: " + data);
+            	}
+            });
+            
+            //dataSource.read();
+            
+            //console.log("DataSource: " + dataSource);
+            
+            that.set("programsDataSource", dataSource);
+            that.set("latestVideoClipsDataSource", dataSourceLatestVideoClips);
+        }        
+    });  
     
-    /*                $("#programsLatestVideoClipsview").kendoMobileScrollView({
-                        dataSource: {
-                            data: notaProgramsDataSource.at(0).LatestVideoClips,
-                            serverPaging: false,
-                            pageSize: 6
-                        },
-                        itemsPerPage: 1,
-                        template: $("#template_latestvideoclips_program").html(),
-                        contentHeight: "auto",
-                        enablePager: false
-                    });
-    */                
-                   //$("#programsLatestUpdatesview").kendoMobileListView({
-                    //dataSource: notaProgramsDataSource.at(0).LatestPrograms,
-                    //template: kendo.template($("#template_program").html())
-                    //});
-                 
-        });            
+    app.programsService = {
+        viewModel: new ProgramsViewModel()
     };
-
+    
 })(window)
