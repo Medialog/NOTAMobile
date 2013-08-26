@@ -10,32 +10,50 @@
         <script src="kendo/js/jquery.min.js"></script>
         <script src="kendo/js/kendo.mobile.min.js"></script>
 
-        
     </head>
     <body>
-        
+
         <!-- ******************* -->
         <!-- ****** Views ****** -->
-        
+
         <!-- Home -->
         <div id="tabstrip-home"
-            data-role="view"
-            data-title="NOTA" 
-            data-model="app.programsService.viewModel">
-            
+             data-role="view"
+             data-title="NOTA" 
+             data-model="app.programsService.viewModel">
+
             <div data-role="content" class="weather">
+                <!--<p><a href="#" onclick="playVideo('https://www.youtube.com/watch?v=gYOLV66XukY')">Video</a><p/>-->
+                <div>Most Talked</div>
+                <div 
+                    data-role="listview" 
+                    data-bind="source: weekMostTalkedAboutDataSource" 
+                    data-template="weekmosttalkedabout-programs-template">
+                </div>
                 <div>Latest clips</div>
+<!--
+                <div id="scrollview-container">
+                    <div 
+                        data-role="scrollview" 
+                        data-bind="source: latestVideoClipsDataSource" 
+                        data-source="app.programsService.viewModel.latestVideoClipsDataSource" 
+                        data-template="latestvideoclips-programs-template"
+                        data-content-height="200px"
+                        data-enable-pager="false">
+                    </div>
+                </div>
+-->                
                 <div 
                     data-role="listview" 
                     data-bind="source: latestVideoClipsDataSource" 
-                    data-template="latestvideoclips-programs-template">                    
+                    data-template="latestvideoclips-programs-template">
                 </div>
-
-                <div id="programsLatestVideoClipsview"></div>
-                <div>Most Talked</div>
-                <div id="programsWeekMostTalkingAboutview"></div>
                 <div>Latest Updates</div>
-                <div id="programsLatestUpdatesview"></div>
+                <div 
+                    data-role="listview" 
+                    data-bind="source: latestDataSource" 
+                    data-template="latest-programs-template">
+                </div>
             </div>
 
         </div>
@@ -44,23 +62,67 @@
         <div data-role="view" id="tabstrip-scrollview" data-stretch="true" data-init="onInit">
             <div id="scrollview"></div>
         </div>
-        
 
         <!-- *********************** -->
         <!-- ****** Templates ****** -->
-        
+
         <!-- Latest video clips -->
         <script type="text/x-kendo-tmpl" id="latestvideoclips-programs-template">
             <div style="width: 100%">
                 <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
                 <div class="videoPlayButton">
-                    <a href="#:VideoFile#"><img width="100%" src="_images/btPlay_120px.png"/></a>
+                    <img width="100%" src="_images/btPlay_120px.png"/>
                     <div class="titleDiv">
                         <p class="title">#: OriginalTitle #</p>
                         <div class="socialMetrics">
-                            #:FacebookLikes#<img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" />
+                            #:FacebookLikes#
+                            <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" />
                         </div>
                     </div>
+                </div>
+            </div>
+        </script>
+
+        <!-- Latest Programs -->
+        <script type="text/x-kendo-tmpl" id="latest-programs-template">
+            <div style="width: 100%">
+                <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
+                <div class="videoPlayButton">
+                    <a href="#:VideoFile#">
+                        <img width="100%" src="_images/btPlay_120px.png"/>
+                    </a>
+                    <div class="titleDiv">
+                        <p class="title">#: OriginalTitle #</p>
+                        <div class="socialMetrics">
+                            #:FacebookLikes#
+                            <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!-- Week most talked about -->
+        <script type="text/x-kendo-tmpl" id="weekmosttalkedabout-programs-template">
+            <div style="width: 100%">
+                <div class="title">#: OriginalTitle #</div>
+                <img class="image" src="#:ImageFile#" alt="#:OriginalTitle#" />
+                <!--<div class="videoPlayButton">
+                <a href="#:VideoFile#">
+                <img width="100%" src="_images/btPlay_120px.png"/>
+                </a>
+                <div class="titleDiv">
+                <p class="title">#: OriginalTitle #</p>
+                </div>
+                </div>-->
+                <!--<div class="socialMetrics" style="width: 32px;height: 32px;background-image: url(_images/FacebookLikes.png);background-repeat:no-repeat;background-position:center;">
+                #:FacebookLikes#
+                </div>-->
+                <div class="socialMetrics">
+                    <img width="40" height="33" src="_images/FacebookTalkingAbout.png" alt="#:FacebookTalkingAboutWeekCount#" />
+                        # var formatedNumber = kendo.toString(FacebookTalkingAboutWeekCount, "###.###") #
+                        #=formatedNumber#
+                    <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" /> #:FacebookLikes#
                 </div>
             </div>
         </script>
@@ -72,23 +134,25 @@
                     <a class="p-link" href="#:FacebookPage#" title="#:OriginalTitle#">
                         <img width="100%" src="#:ImageFile#" alt="#:OriginalTitle#" />
                     </a>
-                    </div>
-                <div>
-                <a class="p-link" href="#:FacebookPage#" title="#:OriginalTitle#">#:OriginalTitle#</a>
-                <br/>
-                <a href="#:VideoFile#"><img width="64" height="64" src="_images/VideoPlay64.png" alt="#:VideoFile#" /></a>
-                <br/>
-                #:Summary#
                 </div>
                 <div>
-                <img width="80" height="66" src="_images/FacebookTalkingAbout.png" alt="#:FacebookTalkingAboutWeekCount#" />#:FacebookTalkingAboutWeekCount#
+                    <a class="p-link" href="#:FacebookPage#" title="#:OriginalTitle#">#:OriginalTitle#</a>
+                    <br/>
+                    <a href="#:VideoFile#">
+                        <img width="64" height="64" src="_images/VideoPlay64.png" alt="#:VideoFile#" />
+                    </a>
+                    <br/>
+                    #:Summary#
                 </div>
                 <div>
-                <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" /> #:FacebookLikes#
+                    <img width="80" height="66" src="_images/FacebookTalkingAbout.png" alt="#:FacebookTalkingAboutWeekCount#" />#:FacebookTalkingAboutWeekCount#
+                </div>
+                <div>
+                    <img width="32" height="32" src="_images/FacebookLikes.png" alt="#:FacebookLikes#" /> #:FacebookLikes#
                 </div>
             </div>
         </script>
-        
+
         <!-- Scrollview Example -->
         <script id="scrollview-template" type="text/x-kendo-template">
             <div>
@@ -102,10 +166,12 @@
         <div data-role="layout" data-id="mobile-tabstrip">
             <header data-role="header">
                 <div data-role="navbar">
-                    <span data-role="view-title"></span>
-                </div>
-                <div>
+                    <!--<span data-role="view-title"></span>-->
                     <img width="100%" src="_images/Header_NOTA_Mobile.PNG" alt="" />
+                    <div class="search-container">
+                        <input type="text" class="search-text" placeholder="Search programs..." />
+                        <a data-role="button" data-icon="search"></a>
+                    </div>
                 </div>
             </header>
             <div data-role="footer">
@@ -120,76 +186,29 @@
         <!-- Scripts -->
         <script src="scripts/app.js"></script>
         <script src="scripts/data.js"></script>
-        
-<script>
-    //getPrograms();
-        //var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
+        <script src="scripts/video.js"></script>
 
-//            function notaProgramsDataSource_error(e) {
-//              console.log("Error: " + e); // displays "error"
-//            }
-            
-//            notaProgramsDataSource.bind("error", notaProgramsDataSource_error);
-            
-//            notaProgramsDataSource.fetch(function(){
-                
-               //$("#programsWeekMostTalkingAboutview").kendoMobileListView({
-               // dataSource: notaProgramsDataSource.at(0).WeekMostTalkingAboutPrograms,
-               // template: kendo.template($("#template_program").html())
-               // });
+        <script>
+            function playVideo(vidUrl) {
+                console.log("Video: " + vidUrl);
+                window.plugins.videoPlayer.play(vidUrl);
+            }
+        </script>
 
-//                $("#programsLatestVideoClipsview").kendoMobileScrollView({
-//                    dataSource: {
-//                        data: notaProgramsDataSource.at(0).LatestVideoClips,
-//                        serverPaging: false,
-//                        pageSize: 6
-//                    },
-//                    itemsPerPage: 1,
-//                    template: $("#template_latestvideoclips_program").html(),
-//                    contentHeight: "auto",
-//                    enablePager: false
-//                });
-                
-               //$("#programsLatestUpdatesview").kendoMobileListView({
-                //dataSource: notaProgramsDataSource.at(0).LatestPrograms,
-                //template: kendo.template($("#template_program").html())
-                //});
-             
-//            });            
-
-    
-//    function onInit() {
-//        $("#scrollview").kendoMobileScrollView({
-//            dataSource: {
-//                data: notaProgramsDataSource.at(0).LatestVideoClips,
-//                serverPaging: false,
-//                pageSize: 6
-//            },
-//            itemsPerPage: 1,
-//            template: $("#template_latestvideoclips_program").html(),
-//            contentHeight: "auto",
-//            enablePager: false
-//        });
-//    }
-
-//    function setBackground(url) {
-//        console.log("url(" + url + ")");
-//        return "url(" + url + ")";
-//    }
-</script>
-
-<style scoped>
-            .title {
+        <style scoped>
+            .title
+            {
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 12px;
+                font-size: 16px;
                 text-align: left;
                 font-weight: bold;
                 margin: 0;
                 padding: 0;
                 color: white;
             }
-
-            .summary {
+            
+            .summary
+            {
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 9px;
                 text-align: left;
@@ -197,29 +216,33 @@
                 padding: 0;
                 color: lightgrey;
             }
-
-            .socialMetrics {
+            
+            .socialMetrics
+            {
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 10px;
-                font-weight: bold;
+                font-size: 12px;
+                font-weight: normal;
                 margin: 0;
                 padding: 0;
                 color: white;
+                vertical-align:middle;
             }
-
-
-            .image {
+            
+            .image
+            {
                 width: 100%;
             }
             
-            .videoPlayButton {
+            .videoPlayButton
+            {
                 position: absolute;
                 bottom: 0px;
                 margin-left: 0px;
                 margin-right: 12px;
                 z-index: 1000;
             }
-            .titleDiv {
+            .titleDiv
+            {
                 position: absolute;
                 top: 4px;
                 right: 0px;
@@ -230,4 +253,4 @@
         </style>
     </body>
 </html>
-        
+

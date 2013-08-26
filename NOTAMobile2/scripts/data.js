@@ -1,23 +1,28 @@
 (function (global) {
     var ProgramsViewModel,
-    app = global.app = global.app || {};
+    app = global.app = global.app || {},
+    servicePath = "http://staging.medialogeuropa.com/NOTAWebApi";
+    //servicePath = "http://localhost:57788";
 
     ProgramsViewModel = kendo.data.ObservableObject.extend({
-        programsDataSource: null,
+        allDataSource: null,
         latestVideoClipsDataSource: null,
-        latestProgramsDataSource: null,
+        latestDataSource: null,
+        weekMostTalkedAboutDataSource: null,
         
         init: function () {
             var that = this,
-                dataSource;
+                dataSourceAll,
+                dataSourceLatestVideoClips,
+                dataSourceLatest,
+                dataSourceWeekMostTalkedAbout;
             
             kendo.data.ObservableObject.fn.init.apply(that, []);
             
-            dataSource = new kendo.data.DataSource({
+            dataSourceAll = new kendo.data.DataSource({
                 transport: {
             		read: {
-//            			url: "http://staging.medialogeuropa.com/NOTAWebApi/api/programs?json=true",
-            			url: "http://localhost:57788/api/programs/AllPrograms?json=true",
+            			url: servicePath + "/api/programs/AllPrograms?json=true",
             			contentType: "application/json; charset=utf-8",
             			type: "GET",
             			dataType: "json"
@@ -32,8 +37,24 @@
             dataSourceLatestVideoClips = new kendo.data.DataSource({
                 transport: {
             		read: {
-//            			url: "http://staging.medialogeuropa.com/NOTAWebApi/api/programs?json=true",
-            			url: "http://localhost:57788/api/programs/LatestVideoClips?json=true",
+            			url: servicePath + "/api/programs/LatestVideoClips?json=true",
+            			contentType: "application/json; charset=utf-8",
+            			type: "GET",
+            			dataType: "json"
+            		}
+                },  
+                serverPaging: false,
+                pageSize: 30,
+                change: function(e) {
+            		var data = this.data();
+                    console.log("LatestVideoClips: " + data);
+            	}
+            });
+
+            dataSourceLatest = new kendo.data.DataSource({
+                transport: {
+            		read: {
+            			url: servicePath + "/api/programs/LatestPrograms?json=true",
             			contentType: "application/json; charset=utf-8",
             			type: "GET",
             			dataType: "json"
@@ -41,16 +62,29 @@
                 },  
             	change: function(e) {
             		var data = this.data();
-                    console.log("LatestVideoClips: " + data);
+                    console.log("Latest: " + data);
+            	}
+            });
+
+            dataSourceWeekMostTalkedAbout = new kendo.data.DataSource({
+                transport: {
+            		read: {
+            			url: servicePath + "/api/programs/WeekMostTalkedAboutPrograms?json=true",
+            			contentType: "application/json; charset=utf-8",
+            			type: "GET",
+            			dataType: "json"
+            		}
+                },  
+            	change: function(e) {
+            		var data = this.data();
+                    console.log("WeekMostTalkedAbout: " + data);
             	}
             });
             
-            //dataSource.read();
-            
-            //console.log("DataSource: " + dataSource);
-            
-            that.set("programsDataSource", dataSource);
+            that.set("allDataSource", dataSourceAll);
             that.set("latestVideoClipsDataSource", dataSourceLatestVideoClips);
+            that.set("latestDataSource", dataSourceLatest);
+            that.set("weekMostTalkedAboutDataSource", dataSourceWeekMostTalkedAbout);
         }        
     });  
     
